@@ -1,0 +1,5 @@
+com\inventario\controller\ProductoController.class
+com\inventario\service\ProductoService.class
+com\inventario\model\Producto.class
+com\inventario\InventarioSpringBootApplication.class
+com\inventario\repository\ProductoRepository.class
