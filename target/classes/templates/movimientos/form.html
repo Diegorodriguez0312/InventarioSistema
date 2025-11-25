@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Movimiento</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-repeat"></i>
+                        Movimiento de Inventario
+                    </h5>
+                </div>
+
+                <div class="card-body">
+
+                    <!-- IMPORTANTE: el formulario debe enviar a /movimientos/guardar -->
+                    <form th:action="@{/movimientos/guardar}" th:object="${movimiento}" method="post">
+
+                        <input type="hidden" th:field="*{id}">
+
+                        <!-- PRODUCTO -->
+                        <div class="mb-3">
+                            <label class="form-label">Producto:</label>
+                            <select class="form-control" th:field="*{producto}">
+                                <option value="">Seleccione...</option>
+                                <option th:each="p : ${productos}"
+                                        th:value="${p.id}"
+                                        th:text="${p.nombre}"></option>
+                            </select>
+                        </div>
+
+                        <!-- TIPO -->
+                        <div class="mb-3">
+                            <label class="form-label">Tipo Movimiento:</label>
+                            <select class="form-control" th:field="*{tipo}">
+                                <option value="ENTRADA">Entrada</option>
+                                <option value="SALIDA">Salida</option>
+                            </select>
+                        </div>
+
+                        <!-- CANTIDAD -->
+                        <div class="mb-3">
+                            <label class="form-label">Cantidad:</label>
+                            <input type="number" class="form-control" th:field="*{cantidad}" required>
+                        </div>
+
+                        <!-- FECHA — se quita, porque se genera sola -->
+                        <input type="hidden" th:field="*{fecha}" />
+
+                        <!-- DETALLE (antes tenías "observacion", no existe en tu entidad) -->
+                        <div class="mb-3">
+                            <label class="form-label">Detalle:</label>
+                            <textarea class="form-control" th:field="*{detalle}"></textarea>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="/movimientos" class="btn btn-secondary">Cancelar</a>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
