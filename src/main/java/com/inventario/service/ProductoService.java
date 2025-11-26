@@ -44,14 +44,26 @@ public class ProductoService {
         return repository.save(p);
     }
 
-    // Actualizar
     public Producto actualizar(Integer id, Producto p) throws Exception {
-        Optional<Producto> existente = repository.findById(id);
-        if (!existente.isPresent()) {
-            throw new Exception("Producto no encontrado");
+
+        Producto producto = repository.findById(id)
+                .orElseThrow(() -> new Exception("Producto no encontrado"));
+
+        // Validar código (solo si viene en el request)
+        if (p.getCodigo() != null) {
+
+            // Buscar cualquier producto con ese codigo
+            Optional<Producto> encontrado = repository.findByCodigo(p.getCodigo());
+
+            // Si existe y no es el mismo producto → error
+            if (encontrado.isPresent() && !encontrado.get().getId().equals(id)) {
+                throw new Exception("Código ya existe en otro producto");
+            }
+
+            producto.setCodigo(p.getCodigo());
         }
 
-        Producto producto = existente.get();
+        // Actualizar otros campos
         if (p.getNombre() != null) producto.setNombre(p.getNombre());
         if (p.getPrecio() != null) producto.setPrecio(p.getPrecio());
         if (p.getStock() != null) producto.setStock(p.getStock());
@@ -59,6 +71,8 @@ public class ProductoService {
 
         return repository.save(producto);
     }
+
+
 
     // Eliminar
     public void eliminar(Integer id) throws Exception {

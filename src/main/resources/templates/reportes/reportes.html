@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/main :: layout('Reportes del Sistema', ~{::section})}">
+
+<section class="container-fluid px-4 py-4">
+
+    <!-- Header -->
+    <div class="mb-4 pb-3 border-bottom">
+        <h2 class="fw-semibold text-dark mb-1">Panel de inicio</h2>
+        <p class="text-muted mb-0 small">Visualiza las métricas y estadísticas del sistema</p>
+    </div>
+
+    <!-- Metrics Cards -->
+    <div class="row g-4 mb-4">
+
+        <!-- Total Productos -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow-sm rounded-3 h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="rounded-3 p-2" style="background-color: #e0f2fe;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                            </svg>
+                        </div>
+                        <span class="badge bg-light text-primary border border-primary">Inventario</span>
+                    </div>
+                    <h3 class="fw-bold mb-1" style="color: #0284c7;" th:text="${totalProductos}">0</h3>
+                    <p class="text-muted mb-0 small">Total Productos</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Compras -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow-sm rounded-3 h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="rounded-3 p-2" style="background-color: #fef3c7;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                <line x1="3" y1="6" x2="21" y2="6"></line>
+                                <path d="M16 10a4 4 0 0 1-8 0"></path>
+                            </svg>
+                        </div>
+                        <span class="badge bg-light text-warning border border-warning">Compras</span>
+                    </div>
+                    <h3 class="fw-bold mb-1" style="color: #f59e0b;" th:text="${totalCompras}">0</h3>
+                    <p class="text-muted mb-0 small">Total Compras</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Ventas -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow-sm rounded-3 h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="rounded-3 p-2" style="background-color: #d1fae5;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="9" cy="21" r="1"></circle>
+                                <circle cx="20" cy="21" r="1"></circle>
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                            </svg>
+                        </div>
+                        <span class="badge bg-light text-success border border-success">Ventas</span>
+                    </div>
+                    <h3 class="fw-bold mb-1" style="color: #10b981;" th:text="${totalVentas}">0</h3>
+                    <p class="text-muted mb-0 small">Total Ventas</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ganancia -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow-sm rounded-3 h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="rounded-3 p-2" style="background-color: #dbeafe;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="1" x2="12" y2="23"></line>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                        </div>
+                        <span class="badge bg-light text-primary border border-primary">Ganancia</span>
+                    </div>
+                    <h3 class="fw-bold mb-1" style="color: #3b82f6;" th:text="${'$' + ganancia}">$0</h3>
+                    <p class="text-muted mb-0 small">Ganancia Total</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Chart Card -->
+    <div class="card border-0 shadow-sm rounded-3">
+        <div class="card-header bg-white border-bottom py-3 px-4">
+            <h5 class="mb-1 fw-semibold text-dark">Análisis de Rendimiento</h5>
+            <p class="text-muted mb-0 small">Comparativa de productos, compras y ventas</p>
+        </div>
+        <div class="card-body p-4">
+            <div style="position: relative; height: 400px;">
+                <canvas id="grafica1"
+                        th:attr="data-productos=${totalProductos}, data-compras=${totalCompras}, data-ventas=${totalVentas}">
+                </canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Info -->
+    <div class="card border-0 bg-light mt-4">
+        <div class="card-body p-3">
+            <p class="text-muted small mb-0">
+                Los datos se actualizan en tiempo real. La ganancia se calcula como la diferencia entre ventas totales y costos de compras.
+            </p>
+        </div>
+    </div>
+
+    <!-- Script: Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('grafica1');
+            if (!ctx) return;
+
+            const totalProductos = parseInt(ctx.getAttribute('data-productos') || '0');
+            const totalCompras = parseInt(ctx.getAttribute('data-compras') || '0');
+            const totalVentas = parseInt(ctx.getAttribute('data-ventas') || '0');
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Productos', 'Compras', 'Ventas'],
+                    datasets: [{
+                        label: 'Totales',
+                        data: [totalProductos, totalCompras, totalVentas],
+                        backgroundColor: ['#0284c7', '#f59e0b', '#10b981'],
+                        borderRadius: 8,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } }
+                }
+            });
+        });
+    </script>
+
+    <!-- Styles -->
+    <style>
+        .card {
+            border-radius: .5rem;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.1) !important;
+        }
+    </style>
+
+</section>
+
+</html>

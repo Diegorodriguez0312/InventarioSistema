@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       th:replace="~{layout/main :: layout(
-        ${producto.id == null} ? 'Crear Producto' : 'Editar Producto',
+        ${venta.id == null} ? 'Registrar Venta' : 'Editar Venta',
         ~{::section}
       )}">
 
@@ -12,22 +12,22 @@
 
             <!-- Breadcrumb / Navigation -->
             <div class="mb-4">
-                <a href="/productos" class="text-muted text-decoration-none d-inline-flex align-items-center gap-2 small">
+                <a href="/ventas" class="text-muted text-decoration-none d-inline-flex align-items-center gap-2 small">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="19" y1="12" x2="5" y2="12"></line>
                         <polyline points="12 19 5 12 12 5"></polyline>
                     </svg>
-                    Volver a Productos
+                    Volver a Ventas
                 </a>
             </div>
 
             <!-- Header -->
             <div class="mb-4">
                 <h2 class="fw-semibold text-dark mb-1"
-                    th:text="${producto.id == null} ? 'Crear Nuevo Producto' : 'Editar Producto'">
+                    th:text="${venta.id == null} ? 'Registrar Nueva Venta' : 'Editar Venta'">
                 </h2>
                 <p class="text-muted mb-0"
-                   th:text="${producto.id == null} ? 'Complete la información del nuevo producto' : 'Modifique los datos necesarios'">
+                   th:text="${venta.id == null} ? 'Complete los datos de la venta realizada' : 'Modifique los datos necesarios'">
                 </p>
             </div>
 
@@ -35,89 +35,62 @@
             <div class="card border-0 shadow-sm rounded-3">
                 <div class="card-body p-4">
 
-                    <form th:action="@{/productos}" th:method="post" th:object="${producto}">
+                    <form th:action="@{/ventas}" th:object="${venta}" method="post">
                         <input type="hidden" th:field="*{id}">
+
+                        <div class="mb-4">
+                            <label class="form-label text-muted small fw-semibold text-uppercase mb-2">
+                                Producto
+                            </label>
+                            <select class="form-select form-select-lg border-light rounded-2" th:field="*{producto}">
+                                <option value="">Seleccione un producto</option>
+                                <option th:each="p : ${productos}"
+                                        th:value="${p.id}"
+                                        th:text="${p.nombre}">
+                                </option>
+                            </select>
+                        </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-4">
                                 <label class="form-label text-muted small fw-semibold text-uppercase mb-2">
-                                    Código
+                                    Cantidad
                                 </label>
-                                <input type="text"
+                                <input type="number"
                                        class="form-control form-control-lg border-light rounded-2"
-                                       th:field="*{codigo}"
-                                       placeholder="SKU-001"
+                                       th:field="*{cantidad}"
+                                       placeholder="0"
                                        required>
                             </div>
 
                             <div class="col-md-6 mb-4">
                                 <label class="form-label text-muted small fw-semibold text-uppercase mb-2">
-                                    Categoría
+                                    Fecha
                                 </label>
-                                <select class="form-select form-select-lg border-light rounded-2" th:field="*{categoria}">
-                                    <option value="">Seleccione una categoría</option>
-                                    <option value="Electronicos">Electrónicos</option>
-                                    <option value="Accesorios">Accesorios</option>
-                                    <option value="Muebles">Muebles</option>
-                                    <option value="Ropa">Ropa</option>
-                                </select>
+                                <input type="date"
+                                       class="form-control form-control-lg border-light rounded-2"
+                                       th:field="*{fecha}"
+                                       required>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label text-muted small fw-semibold text-uppercase mb-2">
-                                Nombre del Producto
+                                Precio Unitario
                             </label>
-                            <input type="text"
-                                   class="form-control form-control-lg border-light rounded-2"
-                                   th:field="*{nombre}"
-                                   placeholder="Nombre completo del producto"
-                                   required>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-4">
-                                <label class="form-label text-muted small fw-semibold text-uppercase mb-2">
-                                    Precio
-                                </label>
-                                <div class="input-group input-group-lg">
-                                    <span class="input-group-text bg-light border-light rounded-start-2 text-muted">$</span>
-                                    <input type="number"
-                                           step="0.01"
-                                           class="form-control border-light rounded-end-2"
-                                           th:field="*{precio}"
-                                           placeholder="0.00"
-                                           required>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-4">
-                                <label class="form-label text-muted small fw-semibold text-uppercase mb-2">
-                                    Stock Inicial
-                                </label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-light border-light rounded-start-2 text-muted">$</span>
                                 <input type="number"
-                                       class="form-control form-control-lg border-light rounded-2"
-                                       th:field="*{stock}"
-                                       placeholder="0"
+                                       step="0.01"
+                                       class="form-control border-light rounded-end-2"
+                                       th:field="*{precioUnitario}"
+                                       placeholder="0.00"
                                        required>
                             </div>
                         </div>
 
-                        <div class="mb-4 pb-3">
-                            <div class="form-check form-switch">
-                                <input type="checkbox"
-                                       class="form-check-input"
-                                       th:field="*{activo}"
-                                       id="activoSwitch"
-                                       style="width: 3rem; height: 1.5rem; cursor: pointer;">
-                                <label class="form-check-label ms-2 text-muted" for="activoSwitch">
-                                    Producto activo y disponible para la venta
-                                </label>
-                            </div>
-                        </div>
-
                         <div class="d-flex gap-3 pt-3 border-top">
-                            <a href="/productos"
+                            <a href="/ventas"
                                class="btn btn-light px-4 py-2 rounded-2 flex-grow-1 d-flex align-items-center justify-content-center gap-2">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -132,7 +105,7 @@
                                     <polyline points="17 21 17 13 7 13 7 21"></polyline>
                                     <polyline points="7 3 7 8 15 8"></polyline>
                                 </svg>
-                                Guardar Producto
+                                Guardar Venta
                             </button>
                         </div>
 
@@ -151,7 +124,7 @@
                             <line x1="12" y1="8" x2="12.01" y2="8"></line>
                         </svg>
                         <p class="text-muted small mb-0">
-                            El código del producto debe ser único. El stock se actualizará automáticamente con las compras y ventas
+                            Al guardar, se descontará automáticamente del inventario la cantidad vendida
                         </p>
                     </div>
                 </div>
@@ -191,19 +164,6 @@
     .input-group-text {
         font-weight: 500;
         border: 1px solid #e9ecef;
-    }
-
-    .form-check-input {
-        border: 2px solid #dee2e6;
-    }
-
-    .form-check-input:checked {
-        background-color: #212529;
-        border-color: #212529;
-    }
-
-    .form-check-input:focus {
-        box-shadow: 0 0 0 0.2rem rgba(33, 37, 41, 0.1);
     }
 
     .card {
