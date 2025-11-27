@@ -35,7 +35,9 @@
             <div class="card border-0 shadow-sm rounded-3">
                 <div class="card-body p-4">
 
-                    <form th:action="@{/productos}" th:method="post" th:object="${producto}">
+                    <form th:action="${producto.id == null} ? @{/productos} : @{/productos/{id}(id=${producto.id})}"
+                          th:method="post"
+                          th:object="${producto}">
                         <input type="hidden" th:field="*{id}">
 
                         <div class="row">
