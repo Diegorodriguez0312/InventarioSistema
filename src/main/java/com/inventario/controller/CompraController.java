@@ -50,27 +50,31 @@ public class CompraController {
 
     // EDITAR
     @GetMapping("/{id}/editar")
-    public String editar(@PathVariable("id") Integer id, Model model) {
+    public String editar(@PathVariable("id") Integer id,
+                         Model model,
+                         RedirectAttributes redirect) {
 
         Compra compra = compraService.buscarPorId(id);
 
+        if (compra == null) {
+            redirect.addFlashAttribute("mensaje", "La compra no existe");
+            redirect.addFlashAttribute("tipo", "error");
+            return "redirect:/compras";
+        }
+
         model.addAttribute("compra", compra);
         model.addAttribute("productos", productoService.listarTodos());
-
         return "compras/form";
     }
 
     // ACTUALIZAR
     @PostMapping("/{id}")
-    public String actualizar(
-            @PathVariable("id") Integer id,
-            @ModelAttribute Compra compra,
-            RedirectAttributes redirect
-    ) {
+    public String actualizar(@PathVariable("id") Integer id,
+                             @ModelAttribute Compra compra,
+                             RedirectAttributes redirect) {
 
         try {
-            compra.setId(id);
-            compraService.registrarCompra(compra);
+            compraService.actualizarCompra(id, compra); // CORREGIDO
             redirect.addFlashAttribute("mensaje", "Compra actualizada correctamente");
             redirect.addFlashAttribute("tipo", "success");
         } catch (Exception e) {
@@ -84,7 +88,6 @@ public class CompraController {
     // ELIMINAR
     @GetMapping("/{id}/eliminar")
     public String eliminar(@PathVariable("id") Integer id, RedirectAttributes redirect) {
-
         try {
             compraService.eliminar(id);
             redirect.addFlashAttribute("mensaje", "Compra eliminada");

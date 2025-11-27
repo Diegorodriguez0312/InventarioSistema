@@ -4,6 +4,32 @@
 
 <section class="container-fluid px-4 py-4">
 
+    <!-- Alert Messages -->
+    <div th:if="${mensaje}"
+         class="alert alert-dismissible fade show border-0 rounded-3 mb-4"
+         th:classappend="${tipo} == 'success' ? 'alert-success bg-success bg-opacity-10 text-success' : 'alert-danger bg-danger bg-opacity-10 text-danger'">
+        <div class="d-flex align-items-center gap-2">
+
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+                <!-- Éxito -->
+                <path th:if="${tipo} == 'success'" d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline th:if="${tipo} == 'success'" points="22 4 12 14.01 9 11.01"></polyline>
+
+                <!-- Error -->
+                <circle th:if="${tipo} != 'success'" cx="12" cy="12" r="10"></circle>
+                <line th:if="${tipo} != 'success'" x1="12" y1="8" x2="12" y2="12"></line>
+                <line th:if="${tipo} != 'success'" x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+
+            <span th:text="${mensaje}"></span>
+        </div>
+
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
         <div>
