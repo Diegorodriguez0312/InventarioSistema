@@ -1,6 +1,7 @@
 package com.inventario.controller;
 
 import com.inventario.model.Producto;
+import com.inventario.repository.ProductoRepository;
 import com.inventario.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -95,5 +96,16 @@ public class ProductoController {
     @GetMapping("/")
     public String home() {
         return "redirect:/productos";
+    }
+
+    @GetMapping("/buscar")
+    public String buscar(@RequestParam("q") String query, Model model) {
+
+        List<Producto> resultados = service.buscar(query);
+
+        model.addAttribute("productos", resultados);
+        model.addAttribute("query", query);
+
+        return "productos/listado";
     }
 }

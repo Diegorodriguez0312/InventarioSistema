@@ -81,4 +81,8 @@ public class ProductoService {
         }
         repository.deleteById(id);
     }
+
+    public List<Producto> buscar(String texto) {
+        return repository.findByNombreContainingIgnoreCaseOrCodigoContainingIgnoreCase(texto,texto);
+    }
 }

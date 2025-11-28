@@ -36,6 +36,16 @@
         </a>
     </div>
 
+    <!-- Search Bar -->
+    <form method="get" action="/productos/buscar" class="mb-4 d-flex">
+        <input type="text"
+               name="q"
+               class="form-control me-2"
+               placeholder="Buscar por nombre o código..."
+               th:value="${query}">
+        <button class="btn btn-dark px-4">Buscar</button>
+    </form>
+
     <!-- Empty State -->
     <div th:if="${productos.isEmpty()}"
          class="alert alert-light border rounded-3 p-4 text-center">
